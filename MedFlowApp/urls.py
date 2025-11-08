@@ -15,7 +15,30 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from MedFlow import views
+from MedFlow import api_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    
+    # Legacy HTML pages
+    path('', views.audio_transcription_page, name='home'),
+    path('upload/', views.upload_audio_page, name='upload_audio'),
+    path('transcribe/', views.transcribe_audio, name='transcribe_audio'),
+    path('process/', views.process_transcription, name='process_transcription'),
+    path('results/', views.results_page, name='results'),
+    
+    # API endpoints for React frontend
+    path('api/health/', api_views.api_health_check, name='api_health'),
+    path('api/auth/login/', api_views.api_login, name='api_login'),
+    path('api/auth/logout/', api_views.api_logout, name='api_logout'),
+    path('api/auth/me/', api_views.api_current_user, name='api_current_user'),
+    path('api/transcribe/', api_views.api_transcribe_audio, name='api_transcribe'),
+    path('api/process/', api_views.api_process_transcription, name='api_process'),
+    
+    # Patient management endpoints
+    path('api/patients/', api_views.api_get_all_patients, name='api_get_all_patients'),
+    path('api/patients/<str:patient_name>/', api_views.api_get_patient, name='api_get_patient'),
+    path('api/patients/<str:patient_name>/visits/', api_views.api_get_patient_visits, name='api_get_patient_visits'),
+    path('api/patients/<str:patient_name>/visits/<str:visit_id>/', api_views.api_update_patient_visit, name='api_update_patient_visit'),
 ]

@@ -2,3 +2,6 @@
 migrations/
 __pycache__/
 output/
+patient_data/
+audio_recordings/
+db.sqlite3

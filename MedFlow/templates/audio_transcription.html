@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Audio Transcription</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        #startBtn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        #startBtn:hover:not(:disabled) {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        #stopBtn {
+            background: #f44336;
+            color: white;
+        }
+
+        #stopBtn:hover:not(:disabled) {
+            background: #da190b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+        }
+
+        #processBtn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 40px;
+            font-size: 18px;
+            display: none;
+            margin: 20px auto;
+        }
+
+        #processBtn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        button:disabled {
+            background: #ccc !important;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .status {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        .status.recording {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .status.processing {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .status.idle {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        #transcription {
+            min-height: 200px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            background: #f9f9f9;
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-bottom: 20px;
+        }
+
+        #transcription:empty:before {
+            content: "Your transcription will appear here...";
+            color: #999;
+            font-style: italic;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .button-container {
+            text-align: center;
+        }
+
+        .info {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 Medical Audio Transcription</h1>
+        <div class="subtitle">Powered by OpenAI Whisper</div>
+        
+        <div class="info">
+            <strong>Instructions:</strong> Click "Start Recording" to begin recording your medical consultation. 
+            Click "Stop Recording" when finished. The audio will be automatically transcribed using OpenAI Whisper.
+            <br><br>
+            <strong>Already have an audio file?</strong> <a href="/upload/" style="color: #667eea; font-weight: bold;">Upload it here</a>
+        </div>
+        
+        <div id="status" class="status idle">Ready to record</div>
+        
+        <div class="controls">
+            <button id="startBtn">Start Recording</button>
+            <button id="stopBtn" disabled>Stop Recording</button>
+        </div>
+        
+        <div id="transcription"></div>
+        <div id="error" class="error"></div>
+        
+        <div class="button-container">
+            <button id="processBtn">Process Medical Data →</button>
+        </div>
+    </div>
+
+    <script>
+        let mediaRecorder;
+        let audioChunks = [];
+        let currentTranscription = '';
+        let currentAudioFile = '';
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const processBtn = document.getElementById('processBtn');
+        const transcriptionDiv = document.getElementById('transcription');
+        const statusDiv = document.getElementById('status');
+        const errorDiv = document.getElementById('error');
+
+        startBtn.addEventListener('click', async () => {
+            try {
+                errorDiv.style.display = 'none';
+                transcriptionDiv.textContent = '';
+                processBtn.style.display = 'none';
+                
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        sampleRate: 44100
+                    } 
+                });
+                
+                mediaRecorder = new MediaRecorder(stream, {
+                    mimeType: 'audio/webm;codecs=opus'
+                });
+                
+                audioChunks = [];
+                
+                mediaRecorder.ondataavailable = (event) => {
+                    audioChunks.push(event.data);
+                };
+                
+                mediaRecorder.onstop = async () => {
+                    statusDiv.className = 'status processing';
+                    statusDiv.textContent = '🔄 Transcribing with OpenAI Whisper...';
+                    
+                    const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                    await sendToServer(audioBlob);
+                    
+                    stream.getTracks().forEach(track => track.stop());
+                };
+                
+                mediaRecorder.start();
+                startBtn.disabled = true;
+                stopBtn.disabled = false;
+                statusDiv.className = 'status recording';
+                statusDiv.textContent = '🔴 Recording...';
+                
+            } catch (error) {
+                console.error('Error accessing microphone:', error);
+                showError('Error accessing microphone: ' + error.message);
+            }
+        });
+
+        stopBtn.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state === 'recording') {
+                mediaRecorder.stop();
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+            }
+        });
+
+        async function sendToServer(audioBlob) {
+            try {
+                const formData = new FormData();
+                formData.append('audio', audioBlob, 'recording.webm');
+                
+                const response = await fetch('/transcribe/', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    transcriptionDiv.textContent = data.transcription;
+                    currentTranscription = data.transcription;
+                    currentAudioFile = data.audio_file || '';
+                    statusDiv.className = 'status idle';
+                    statusDiv.textContent = '✅ Transcription complete! Click "Process Medical Data" to continue.';
+                    processBtn.style.display = 'block';
+                } else {
+                    showError(data.error || 'Transcription failed');
+                    statusDiv.className = 'status idle';
+                    statusDiv.textContent = 'Ready to record';
+                }
+            } catch (error) {
+                console.error('Error sending audio:', error);
+                showError('Error sending audio: ' + error.message);
+                statusDiv.className = 'status idle';
+                statusDiv.textContent = 'Ready to record';
+            }
+        }
+
+        function showError(message) {
+            errorDiv.textContent = '❌ ' + message;
+            errorDiv.style.display = 'block';
+        }
+
+        processBtn.addEventListener('click', async () => {
+            processBtn.disabled = true;
+            statusDiv.className = 'status processing';
+            statusDiv.textContent = '🔄 Processing through medical agents (Patient, SOAP, Lab, Pharmacy)...';
+            errorDiv.style.display = 'none';
+
+            try {
+                const response = await fetch('/process/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        transcription: currentTranscription,
+                        audio_file: currentAudioFile
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    // Store data in sessionStorage and redirect to results page
+                    sessionStorage.setItem('medicalData', JSON.stringify(data));
+                    window.location.href = '/results/';
+                } else {
+                    showError(data.error || 'Processing failed');
+                    statusDiv.className = 'status idle';
+                    statusDiv.textContent = '✅ Transcription complete! Click "Process Medical Data" to continue.';
+                    processBtn.disabled = false;
+                }
+            } catch (error) {
+                console.error('Error processing data:', error);
+                showError('Error processing data: ' + error.message);
+                statusDiv.className = 'status idle';
+                statusDiv.textContent = '✅ Transcription complete! Click "Process Medical Data" to continue.';
+                processBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
