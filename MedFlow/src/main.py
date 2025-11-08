@@ -7,147 +7,77 @@ env_path = Path(__file__).parent.parent / '.env'
 load_dotenv(dotenv_path=env_path)
 
 def main():
-    comprehensive_transcription = """
-    Doctor: Good afternoon! Let me start by confirming your information. Your full name?
+    simple_transcription = """
+    Doctor: Good morning! Let me verify your information. Your full name?
     
-    Patient: Michael Robert Chen.
+    Patient: Jennifer Martinez.
     
-    Doctor: And date of birth?
+    Doctor: Date of birth?
     
-    Patient: June 22nd, 1965. I just turned 59 last month.
+    Patient: April 8th, 1985. I'm 39 years old.
     
-    Doctor: Perfect. Current address is 789 Maple Avenue, Unit 12, Boston, Massachusetts, 02118?
+    Doctor: Current address is 456 Pine Street, Chicago, Illinois, 60614?
     
     Patient: Yes, that's correct.
     
-    Doctor: Phone number 617-555-8901, and email michael.chen@email.com?
+    Doctor: Phone number 312-555-7890?
     
-    Patient: Yes, both are current.
+    Patient: Yes.
     
-    Doctor: I see you have Aetna insurance, policy ABC987654321, group number GRP-7788. Still active?
+    Doctor: I see you have United Healthcare, policy number UHC456789. Still active?
     
-    Patient: Yes, through my company. I work as a software engineer at TechCorp.
+    Patient: Yes, through my employer. I'm a marketing manager.
     
-    Doctor: Great. Your patient ID is PT-2024-9921. Now let me review your medical history. 
-    You're allergic to sulfa drugs and latex, correct?
+    Doctor: Your patient ID is PT-2024-5567. Now, you're allergic to penicillin, correct?
     
-    Patient: Yes, sulfa drugs give me a severe rash, and latex causes hives.
+    Patient: Yes, it gives me a rash.
     
-    Doctor: Current medications - you're taking Atorvastatin 40mg at bedtime for cholesterol, 
-    Metoprolol 50mg twice daily for your heart, and Levothyroxine 100mcg in the morning for thyroid?
+    Doctor: And you're currently taking Lisinopril 10mg daily for blood pressure?
     
-    Patient: That's right. I also take fish oil supplements and vitamin D.
+    Patient: Yes, that's right. Just that one medication.
     
-    Doctor: Any surgeries in your past?
-    
-    Patient: I had a knee arthroscopy 5 years ago for a torn meniscus, and my gallbladder 
-    removed about 10 years ago.
-    
-    Doctor: Family history - I see your father had a heart attack at 62?
-    
-    Patient: Yes, and my mother has type 2 diabetes. My older brother also has high cholesterol.
-    
-    Doctor: Do you smoke or use alcohol?
-    
-    Patient: Never smoked. I have 2-3 beers on weekends, nothing excessive.
-    
-    Doctor: Good. Let me get your vitals. Blood pressure is 138 over 88, a bit high. 
-    Heart rate 76 beats per minute, regular rhythm. Temperature 98.6 Fahrenheit. 
-    Respiratory rate 16 breaths per minute. Oxygen saturation 98% on room air. 
-    You're 5 feet 10 inches tall, weight is 210 pounds, BMI is 30.1.
+    Doctor: Let me check your vitals. Blood pressure is 145 over 92, which is elevated. 
+    Heart rate 82 beats per minute. Temperature 98.6 Fahrenheit. Weight 165 pounds, 
+    height 5 feet 5 inches, BMI is 27.5.
     
     Doctor: What brings you in today?
     
-    Patient: I've been having chest discomfort for the past week, maybe 5-6 days. 
-    It's not constant, but it comes and goes, especially when I'm stressed at work or exercising.
+    Patient: I've been having headaches for about a week now, mostly in the afternoons. 
+    They're pretty bad, like a 6 or 7 out of 10. I also feel tired all the time.
     
-    Doctor: Can you describe the discomfort? Is it sharp, dull, pressure?
+    Doctor: Any nausea, vision changes, or dizziness?
     
-    Patient: It's more like pressure or tightness, right in the center of my chest. 
-    Sometimes it radiates to my left shoulder.
+    Patient: No vision changes, but I do feel a bit dizzy sometimes.
     
-    Doctor: On a scale of 1 to 10?
+    Doctor: Any recent stress?
     
-    Patient: About a 5 or 6 when it happens.
+    Patient: Yes, work has been really stressful lately. Lots of deadlines.
     
-    Doctor: How long does each episode last?
+    Doctor: Let me examine you. Neurological exam is normal, reflexes are good. 
+    Heart and lungs sound normal.
     
-    Patient: Usually 5 to 10 minutes, then it goes away when I rest.
+    Doctor: Based on your symptoms and the elevated blood pressure at 145 over 92, 
+    I think your headaches are related to your blood pressure not being well controlled. 
+    The fatigue could also be stress-related.
     
-    Doctor: Any shortness of breath, sweating, nausea?
+    Patient: What should we do?
     
-    Patient: Yes, I get a bit short of breath and sometimes feel lightheaded. 
-    No nausea though.
+    Doctor: I'm going to increase your Lisinopril from 10mg to 20mg daily. I also want 
+    to add Amlodipine 5mg once daily to better control your blood pressure.
     
-    Doctor: This is concerning given your family history and risk factors. Let me examine you. 
-    Heart sounds - regular rate and rhythm, I'm hearing a grade 2/6 systolic murmur at the apex. 
-    Lungs are clear bilaterally. No peripheral edema. Carotid pulses are normal, no bruits. 
-    Peripheral pulses are intact.
+    Doctor: I need to order some lab work - a basic metabolic panel to check your kidney 
+    function and electrolytes, and a complete blood count to rule out anemia which could 
+    explain the fatigue.
     
-    Doctor: I'm also going to do an EKG right now... The EKG shows some nonspecific ST-T wave 
-    changes in the lateral leads. Nothing acute, but concerning with your symptoms.
+    Doctor: Monitor your blood pressure at home twice daily and keep a log. Come back 
+    in two weeks so we can review your labs and see how you're doing with the new medications.
     
-    Patient: What does that mean?
+    Doctor: Try to reduce stress where you can, get adequate sleep, and reduce sodium in 
+    your diet to less than 2000mg per day.
     
-    Doctor: Based on your symptoms - exertional chest pressure radiating to the left shoulder, 
-    lasting 5-10 minutes and relieved by rest, along with your family history, elevated BMI at 30.1, 
-    borderline blood pressure at 138/88, and the EKG findings - I'm concerned about possible 
-    stable angina or coronary artery disease.
+    Patient: Okay, sounds good. Thank you, Doctor.
     
-    Doctor: The murmur I heard could be related, or it could be a separate issue. We also need 
-    to evaluate your heart valves.
-    
-    Patient: That sounds serious. What do we do?
-    
-    Doctor: First, I need comprehensive testing. I'm ordering several things:
-    
-    For labs, I want a complete metabolic panel to check kidney and liver function, a lipid panel 
-    to see your current cholesterol levels since you're on Atorvastatin, a hemoglobin A1c to 
-    screen for diabetes given your family history, a complete blood count to check for anemia, 
-    troponin levels to rule out any cardiac injury, a BNP level to assess heart function, 
-    and thyroid function tests - TSH and free T4 - to make sure your Levothyroxine dose is correct.
-    
-    Doctor: For imaging and tests, I'm ordering a stress test - either a nuclear stress test or 
-    stress echocardiogram - to evaluate blood flow to your heart during exercise. I also want 
-    an echocardiogram at rest to look at your heart valves and function, and a chest X-ray to 
-    rule out any lung issues.
-    
-    Doctor: I'm going to increase your Metoprolol from 50mg twice daily to 75mg twice daily 
-    to better control your heart rate and blood pressure. Continue your Atorvastatin 40mg. 
-    I'm also adding aspirin 81mg daily for cardiac protection.
-    
-    Doctor: I'm prescribing nitroglycerin 0.4mg sublingual tablets. If you have chest pain, 
-    place one under your tongue. If the pain doesn't resolve in 5 minutes, take another. 
-    If still no relief after the second dose in 5 more minutes, call 911 immediately.
-    
-    Patient: When should I get all these tests done?
-    
-    Doctor: The labs need to be done this week - you'll need to fast for 12 hours before, 
-    so schedule it for first thing in the morning. The stress test and echocardiogram - 
-    my office will call you within 2 days to schedule, hopefully within the next week. 
-    The chest X-ray can be done today if you have time.
-    
-    Doctor: I also want you to see a cardiologist. I'm referring you to Dr. Sarah Williams 
-    at Boston Cardiology Associates. Her office will contact you.
-    
-    Doctor: In the meantime, avoid strenuous exercise. Light walking is okay, but stop if you 
-    have any chest discomfort. Reduce sodium to less than 2000mg per day. Avoid heavy meals. 
-    Get adequate sleep. Try to minimize stress.
-    
-    Doctor: This is critical: if you have chest pain lasting more than 5 minutes that doesn't 
-    respond to nitroglycerin, or if you have severe shortness of breath, severe dizziness, 
-    or loss of consciousness, call 911 immediately. Don't drive yourself.
-    
-    Patient: I understand. This is scary, but I'm glad we're being thorough.
-    
-    Doctor: I know it's concerning, but we're catching this early and taking appropriate action. 
-    I'll see you back here in one week to review all your test results. My office will call you 
-    with the lab results in 2-3 days, and sooner if anything is critically abnormal.
-    
-    Patient: Thank you, Doctor. I appreciate your help.
-    
-    Doctor: You're welcome, Michael. Take care, and don't hesitate to call if anything changes 
-    or you have questions. See you in a week.
+    Doctor: You're welcome, Jennifer. See you in two weeks.
     """
     
     try:
@@ -155,36 +85,43 @@ def main():
         from data_extractor_agent import SOAPDataExtractor
         from patient_agent import PatientDataExtractor
         from lab_request_agent import LabRequestGenerator
+        from pharmacy_request_agent import PharmacyRequestGenerator
         
         print("=" * 80)
-        print("COMPREHENSIVE MEDICAL DOCUMENTATION PIPELINE")
+        print("MEDICAL DOCUMENTATION PIPELINE")
         print("=" * 80)
         print(f"Timestamp: {datetime.now().isoformat()}")
         print("=" * 80)
         
         # Step 1: Extract Patient Data
-        print("\n[STEP 1/4] Extracting Patient Demographics...")
+        print("\n[STEP 1/5] Extracting Patient Demographics...")
         patient_extractor = PatientDataExtractor()
-        patient_data = patient_extractor.extract_patient_data(comprehensive_transcription)
+        patient_data = patient_extractor.extract_patient_data(simple_transcription)
         print("✓ Patient data extracted")
         
         # Step 2: Generate SOAP Note
-        print("\n[STEP 2/4] Generating SOAP Note...")
+        print("\n[STEP 2/5] Generating SOAP Note...")
         soap_generator = SOAPNoteGenerator()
-        soap_note = soap_generator.generate_soap_note(comprehensive_transcription)
+        soap_note = soap_generator.generate_soap_note(simple_transcription)
         print("✓ SOAP note generated")
         
         # Step 3: Extract Clinical Data
-        print("\n[STEP 3/4] Extracting Structured Clinical Data...")
+        print("\n[STEP 3/5] Extracting Structured Clinical Data...")
         data_extractor = SOAPDataExtractor()
         clinical_data = data_extractor.extract_data(soap_note)
         print("✓ Clinical data extracted")
         
         # Step 4: Generate Lab Request
-        print("\n[STEP 4/4] Generating Lab Test Requisition...")
+        print("\n[STEP 4/5] Generating Lab Test Requisition...")
         lab_generator = LabRequestGenerator()
         lab_requisition = lab_generator.generate_lab_request(soap_note, patient_data)
         print("✓ Lab requisition generated")
+        
+        # Step 5: Generate Pharmacy Request
+        print("\n[STEP 5/5] Generating Pharmacy Prescription Request...")
+        pharmacy_generator = PharmacyRequestGenerator()
+        pharmacy_requisition = pharmacy_generator.generate_pharmacy_request(soap_note, patient_data)
+        print("✓ Pharmacy requisition generated")
         
         # Print all outputs as JSON
         print("\n" + "=" * 80)
@@ -206,6 +143,11 @@ def main():
         print("OUTPUT: LAB TEST REQUISITION")
         print("=" * 80)
         print(json.dumps(lab_requisition, indent=2))
+        
+        print("\n" + "=" * 80)
+        print("OUTPUT: PHARMACY PRESCRIPTION REQUEST")
+        print("=" * 80)
+        print(json.dumps(pharmacy_requisition, indent=2))
         
         # Save all outputs
         print("\n" + "=" * 80)
@@ -236,6 +178,10 @@ def main():
             json.dump(lab_requisition, f, indent=2)
         files_saved.append(f'lab_requisition_{timestamp}.json')
         
+        with open(output_dir / f'pharmacy_requisition_{timestamp}.json', 'w') as f:
+            json.dump(pharmacy_requisition, f, indent=2)
+        files_saved.append(f'pharmacy_requisition_{timestamp}.json')
+        
         # Save complete record
         complete_record = {
             "metadata": {
@@ -245,7 +191,8 @@ def main():
             "patient_demographics": patient_data,
             "soap_note": soap_note,
             "clinical_data": clinical_data,
-            "lab_requisition": lab_requisition
+            "lab_requisition": lab_requisition,
+            "pharmacy_requisition": pharmacy_requisition
         }
         
         with open(output_dir / f'complete_record_{timestamp}.json', 'w') as f:
