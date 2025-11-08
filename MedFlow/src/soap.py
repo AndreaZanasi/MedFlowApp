@@ -1,7 +1,7 @@
 import os
 from typing import Dict
 from openai import OpenAI
-from .prompt_loader import PromptLoader
+from prompt_loader import PromptLoader
 
 class SOAPNoteGenerator:
     
