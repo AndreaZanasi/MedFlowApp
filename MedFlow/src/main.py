@@ -1,4 +1,5 @@
 import os
+import json
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -39,24 +40,63 @@ def main():
         
     try:
         from soap import SOAPNoteGenerator
+        from data_extractor import SOAPDataExtractor
+        
         # Initialize generator
+        print("=" * 60)
+        print("STEP 1: Generating SOAP Note")
+        print("=" * 60)
         generator = SOAPNoteGenerator()
         
         # Generate SOAP note
-        print("Generating SOAP note...")
         soap_note = generator.generate_soap_note(sample_transcription)
         
-        # Print formatted output
+        # Print formatted SOAP note
         formatted = generator.format_soap_note(soap_note)
         print(formatted)
         
-        # Also print as JSON for API usage
-        import json
-        print("\nJSON Output:")
+        # Print SOAP note as JSON
+        print("\nSOAP Note JSON:")
         print(json.dumps(soap_note, indent=2))
+        
+        # Initialize extractor
+        print("\n" + "=" * 60)
+        print("STEP 2: Extracting Structured Data from SOAP Note")
+        print("=" * 60)
+        extractor = SOAPDataExtractor()
+        
+        # Extract data from SOAP note
+        extracted_data = extractor.extract_data(soap_note)
+        
+        # Print formatted extracted data
+        print("\nExtracted Data (Formatted):")
+        print("-" * 60)
+        formatted_data = extractor.format_extracted_data(extracted_data)
+        print(formatted_data)
+        
+        # Print extracted data as JSON
+        print("\n" + "-" * 60)
+        print("Extracted Data (JSON):")
+        print(json.dumps(extracted_data, indent=2))
+        
+        # Extract only numeric values
+        print("\n" + "-" * 60)
+        print("Numeric Values Only:")
+        numeric_data = extractor.get_all_numeric_values(extracted_data)
+        for key, value in numeric_data.items():
+            if isinstance(value, dict) and 'value' in value and 'unit' in value:
+                print(f"  • {key}: {value['value']} {value['unit']}")
+            else:
+                print(f"  • {key}: {value}")
+        
+        print("\n" + "=" * 60)
+        print("Processing Complete!")
+        print("=" * 60)
         
     except Exception as e:
         print(f"Error: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
