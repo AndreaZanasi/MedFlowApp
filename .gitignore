@@ -1,7 +1,42 @@
-.env
-migrations/
+# Python
 __pycache__/
-output/
-patient_data/
-audio_recordings/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Django
+*.log
+local_settings.py
 db.sqlite3
+db.sqlite3-journal
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Application specific
+MedFlow/migrations/
+MedFlow/__pycache__/
+MedFlow/src/output/
+MedFlow/patient_data/
+MedFlow/audio_recordings/
+MedFlow/src/__pycache__/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
