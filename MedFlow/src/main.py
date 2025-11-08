@@ -8,7 +8,7 @@ load_dotenv(dotenv_path=env_path)
 
 def main():
     simple_transcription = """
-    Doctor: Good morning! Let me verify your information. Your full name?
+    Doctor: Good morning! Your full name?
     
     Patient: Jennifer Martinez.
     
@@ -16,68 +16,45 @@ def main():
     
     Patient: April 8th, 1985. I'm 39 years old.
     
-    Doctor: Current address is 456 Pine Street, Chicago, Illinois, 60614?
+    Doctor: Phone number?
     
-    Patient: Yes, that's correct.
+    Patient: 312-555-7890.
     
-    Doctor: Phone number 312-555-7890?
+    Doctor: Address?
     
-    Patient: Yes.
+    Patient: 456 Pine Street, Chicago, Illinois.
     
-    Doctor: I see you have United Healthcare, policy number UHC456789. Still active?
+    Doctor: Patient ID PT-2024-5567. Any allergies?
     
-    Patient: Yes, through my employer. I'm a marketing manager.
+    Patient: Yes, penicillin.
     
-    Doctor: Your patient ID is PT-2024-5567. Now, you're allergic to penicillin, correct?
+    Doctor: Current medications?
     
-    Patient: Yes, it gives me a rash.
+    Patient: Lisinopril 10mg daily.
     
-    Doctor: And you're currently taking Lisinopril 10mg daily for blood pressure?
-    
-    Patient: Yes, that's right. Just that one medication.
-    
-    Doctor: Let me check your vitals. Blood pressure is 145 over 92, which is elevated. 
-    Heart rate 82 beats per minute. Temperature 98.6 Fahrenheit. Weight 165 pounds, 
-    height 5 feet 5 inches, BMI is 27.5.
+    Doctor: Let me check your vitals. Blood pressure 145 over 92. Heart rate 82. 
+    Temperature 98.6. Weight 165 pounds. Height 5 feet 5 inches.
     
     Doctor: What brings you in today?
     
-    Patient: I've been having headaches for about a week now, mostly in the afternoons. 
-    They're pretty bad, like a 6 or 7 out of 10. I also feel tired all the time.
+    Patient: Headaches for about a week, mostly afternoons. Pretty bad, 6 or 7 out of 10. 
+    Also tired all the time.
     
-    Doctor: Any nausea, vision changes, or dizziness?
+    Doctor: Any dizziness?
     
-    Patient: No vision changes, but I do feel a bit dizzy sometimes.
+    Patient: Yes, sometimes.
     
-    Doctor: Any recent stress?
+    Doctor: Let me examine you. Neurological exam normal, reflexes good. 
+    Heart and lungs normal.
     
-    Patient: Yes, work has been really stressful lately. Lots of deadlines.
+    Doctor: Your headaches are related to elevated blood pressure. I'm increasing 
+    your Lisinopril from 10mg to 20mg daily. Adding Amlodipine 5mg once daily.
     
-    Doctor: Let me examine you. Neurological exam is normal, reflexes are good. 
-    Heart and lungs sound normal.
+    Doctor: I'm ordering a basic metabolic panel and complete blood count.
     
-    Doctor: Based on your symptoms and the elevated blood pressure at 145 over 92, 
-    I think your headaches are related to your blood pressure not being well controlled. 
-    The fatigue could also be stress-related.
+    Doctor: Monitor your blood pressure at home. Come back in two weeks.
     
-    Patient: What should we do?
-    
-    Doctor: I'm going to increase your Lisinopril from 10mg to 20mg daily. I also want 
-    to add Amlodipine 5mg once daily to better control your blood pressure.
-    
-    Doctor: I need to order some lab work - a basic metabolic panel to check your kidney 
-    function and electrolytes, and a complete blood count to rule out anemia which could 
-    explain the fatigue.
-    
-    Doctor: Monitor your blood pressure at home twice daily and keep a log. Come back 
-    in two weeks so we can review your labs and see how you're doing with the new medications.
-    
-    Doctor: Try to reduce stress where you can, get adequate sleep, and reduce sodium in 
-    your diet to less than 2000mg per day.
-    
-    Patient: Okay, sounds good. Thank you, Doctor.
-    
-    Doctor: You're welcome, Jennifer. See you in two weeks.
+    Patient: Okay, thank you.
     """
     
     try:
