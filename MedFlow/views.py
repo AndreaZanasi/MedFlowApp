@@ -24,3 +24,5 @@ def transcribe_audio(request):
         return JsonResponse({'text': transcription.text})
 
     return JsonResponse({'error': 'No audio uploaded'}, status=400)
+
+
